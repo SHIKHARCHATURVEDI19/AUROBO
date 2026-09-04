@@ -323,7 +323,9 @@
     function renderFrame(index) {
         const img = frames[index];
         if (img && img.complete && img.width > 0) {
-            const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+            // Use Math.min instead of Math.max to act like object-fit: contain
+            // This ensures the entire image fits on the screen without getting cropped
+            const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
             const drawWidth = img.width * scale;
             const drawHeight = img.height * scale;
             const drawX = (canvas.width - drawWidth) / 2;
