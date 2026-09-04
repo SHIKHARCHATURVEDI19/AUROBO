@@ -325,8 +325,8 @@
     function renderFrame(index) {
         const img = frames[index];
         if (img && img.complete && img.width > 0) {
-            // Use Math.min to act like object-fit: contain
-            const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+            // Revert back to Math.max to make the animation cover the full screen
+            const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
             const drawWidth = img.width * scale;
             const drawHeight = img.height * scale;
             const drawX = (canvas.width - drawWidth) / 2;
