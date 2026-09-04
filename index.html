@@ -156,7 +156,7 @@
 </div>
 
 <!-- WATERMARK BLUR OVERLAY -->
-<div class="fixed bottom-12 right-6 z-[5] w-[200px] h-[50px] bg-[#131314]/50 backdrop-blur-2xl rounded-md pointer-events-none border border-white/5"></div>
+<div id="blur-overlay" class="fixed z-[5] bg-[#131314]/50 backdrop-blur-2xl rounded-md pointer-events-none border border-white/5" style="display: block;"></div>
 
 <!-- THIS CREATES THE 1200VH SCROLL AREA FOR THE ANIMATION -->
 <div class="animation-spacer" id="scroll-track"></div>
@@ -318,10 +318,11 @@
 
     const btnContainer = document.getElementById('btn-container');
 
+    const blurOverlay = document.getElementById('blur-overlay');
+
     function renderFrame(index) {
         const img = frames[index];
         if (img && img.complete && img.width > 0) {
-            // Revert back to Math.max to make the animation cover the full screen
             const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
             const drawWidth = img.width * scale;
             const drawHeight = img.height * scale;
@@ -330,6 +331,25 @@
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+
+            // Dynamically glue the blur patch to the bottom-right corner of the actual image
+            if (blurOverlay) {
+                // Approximate original blur patch size (200x50) scaled by image zoom
+                const overlayWidth = 200 * scale;
+                const overlayHeight = 50 * scale;
+                
+                // Adjust padding to move the blur patch slightly inwards from the edge
+                const paddingRight = 15 * scale;
+                const paddingBottom = 45 * scale; // Moved slightly up as requested
+
+                const leftPos = (drawX + drawWidth) - overlayWidth - paddingRight;
+                const topPos = (drawY + drawHeight) - overlayHeight - paddingBottom;
+
+                blurOverlay.style.left = `${leftPos}px`;
+                blurOverlay.style.top = `${topPos}px`;
+                blurOverlay.style.width = `${overlayWidth}px`;
+                blurOverlay.style.height = `${overlayHeight}px`;
+            }
         }
     }
 
