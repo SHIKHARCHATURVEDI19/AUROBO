@@ -156,8 +156,8 @@
 </div>
 
 <!-- WATERMARK COVER BUTTON -->
-<div id="btn-container" class="fixed z-[5]" style="display: none; transform-origin: bottom right;">
-  <button class="bg-surface/90 backdrop-blur-xl border border-outline/30 text-primary px-8 py-4 font-label-caps text-xs tracking-widest uppercase hover:bg-primary hover:text-surface transition-all duration-300 shadow-2xl rounded-sm">
+<div id="btn-container" class="fixed bottom-16 right-6 z-[5]">
+  <button class="bg-surface/90 backdrop-blur-xl border border-outline/30 text-primary px-10 py-4 font-label-caps text-xs tracking-widest uppercase hover:bg-primary hover:text-surface transition-all duration-300 shadow-2xl rounded-sm">
     Discover More
   </button>
 </div>
@@ -334,26 +334,6 @@
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
-
-            // Position the button EXACTLY over the image's bottom right corner
-            // so it stays locked over the watermark regardless of screen size or zoom
-            btnContainer.style.display = 'block';
-            
-            // Padding relative to the image edge (adjust as needed for the watermark)
-            const paddingRight = 10 * scale; 
-            const paddingBottom = 10 * scale;
-
-            // Get button dimensions
-            const btnRect = btnContainer.getBoundingClientRect();
-            
-            // Calculate absolute position
-            const leftPos = (drawX + drawWidth) - btnRect.width - paddingRight;
-            const topPos = (drawY + drawHeight) - btnRect.height - paddingBottom;
-
-            btnContainer.style.left = `${leftPos}px`;
-            btnContainer.style.top = `${topPos}px`;
-            // Scale the button slightly based on image scale so it covers the same relative area
-            btnContainer.style.transform = `scale(${Math.max(0.6, Math.min(1.2, scale))})`;
         }
     }
 
